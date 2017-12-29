@@ -12,8 +12,6 @@ done
 WORKSPACE="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 # List of websites. each website in new line. leave an empty line in the end.
 LISTFILE=$WORKSPACE/websites.lst
-# Temporary dir
-TEMPDIR=$WORKSPACE/cache
 # Append working URIs to this file
 WORKINGFILE=$WORKSPACE/working.lst
 
@@ -34,16 +32,10 @@ function test {
         echo -n "$response "; echo -e "\e[32m[ok]\e[0m"
         echo "$filename" >> $WORKINGFILE
       fi
-      # remove .temp file if exist
-      if [ -f $TEMPDIR/$filename ]; then rm -f $TEMPDIR/$filename; fi
       ;;
     *)
       # website down
       if [ "$QUIET" = false ] ; then echo -n "$response "; echo -e  "\e[31m[DOWN]\e[0m"; fi
-      if [ ! -f $TEMPDIR/$filename ]; then
-        echo "$p WEBSITE DOWN"
-        echo > $TEMPDIR/$filename
-      fi
       ;;
   esac
 }
